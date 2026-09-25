@@ -11,16 +11,14 @@ public class Constants {
 
         return null;
     }
-    public static MecanumConfig driveConfig = new MecanumConfig(
-            c -> {
-                c.frontLeftName.set("left_front");
-                c.backLeftName.set("left_back");
-                c.frontRightName.set("right_front");
-                c.backRightName.set("right_back");
-                c.frontLeftDirection.set(DcMotorSimple.Direction.REVERSE); //placeholder
-                c.backLeftDirection.set(DcMotorSimple.Direction.REVERSE); //placeholder
-                c.frontRightDirection.set(DcMotorSimple.Direction.FORWARD); //placeholder
-                c.backRightDirection.set(DcMotorSimple.Direction.FORWARD); //placeholder
-            }
-    );
+    public static MecanumConfig drivetrainConfig = new MecanumConfig(c -> {
+        c.frontLeftName.set("leftFront");
+        c.frontRightName.set("rightFront");
+        c.backLeftName.set("leftBack");
+        c.backRightName.set("rightBack");
+        c.frontLeftDirection.set(DcMotorSimple.Direction.REVERSE);
+        c.frontRightDirection.set(DcMotorSimple.Direction.FORWARD);
+        c.backLeftDirection.set(DcMotorSimple.Direction.FORWARD);
+        c.backRightDirection.set(DcMotorSimple.Direction.FORWARD);
+    });
 }
