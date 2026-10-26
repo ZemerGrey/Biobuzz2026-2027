@@ -3,9 +3,16 @@ package org.firstinspires.ftc.teamcode.Monroe.Util;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ArmController {
+
+    public ArmController (HardwareMap hardwareMap){
+        this.hardwareMap = hardwareMap;
+    }
+    HardwareMap hardwareMap;
 
 
 
@@ -13,13 +20,12 @@ public class ArmController {
         Intake,
         Outtake,
         Shooting,
-
     }
-
+    ArmState armState;
 
     //Motors
     public DcMotorEx rollerDcMotor;
-    public DcMotorEx mainDcMotor;
+    public DcMotorEx mainIntakeDcMotor;
     public DcMotorEx flywheelDcMotor;
     Servo yawServo;
     Servo hoodServo;
@@ -51,6 +57,48 @@ public class ArmController {
 
     //Yaw Servo Angles
     double YAW_SERVO_ANGLE;
+    //endregion
+
+    //Hood servo Angles
+    double HOOD_SERVO_ANGLE;
+
+
+    public void init(HardwareMap hardwareMap){
+        rollerDcMotor = hardwareMap.get(DcMotorEx.class, "rollerDcMotor");
+        mainIntakeDcMotor = hardwareMap.get(DcMotorEx.class, "mainIntakeDcMotor");
+        flywheelDcMotor = hardwareMap.get(DcMotorEx.class, "flywheelDcMotor");
+
+        yawServo = hardwareMap.get(Servo.class, "yawServo");
+        hoodServo = hardwareMap.get(Servo.class, "hoodServo");
+
+        advancementServo = hardwareMap.get(CRServo.class, "advancementServo");
+
+        rollerDcMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mainIntakeDcMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flywheelDcMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        rollerDcMotor.setDirection(DcMotorSimple.Direction.FORWARD);//placeholder
+        mainIntakeDcMotor.setDirection(DcMotorSimple.Direction.FORWARD);//placeholder
+        flywheelDcMotor.setDirection(DcMotorSimple.Direction.FORWARD);//placeholder
+
+
+
+
+    }
+    public void updateArm(){
+        switch (armState){
+            case Intake:
+                //stuff
+                break;
+            case Outtake:
+                //stuff
+                break;
+            case Shooting:
+                //stuff
+                break;
+
+        }
+    }
 
 
 }
