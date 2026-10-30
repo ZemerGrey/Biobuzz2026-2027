@@ -48,8 +48,16 @@ public class ArmController {
     double DC_ROLLER_INTAKE_OFF = 0;
     //endregion
 
+    //DC Flywheel Powers
+    double DC_FLYWHEEL_POWER;
+    double DC_FLYWHEEL_OFF = 0;
+    double DC_FLYWHEEL_BIG_BALL = 1; //placeholder
+    double DC_FLYWHEEL_SMALL_BALL = 1; //placeholder
+    boolean BALL_SIZE;
+
+
     //Advancement Servo Powers
-    double ADVANCEMENT_SERVO_POWER = 0; //stores power of
+    double ADVANCEMENT_SERVO_POWER = 0;
     double ADVANCEMENT_SERVO_INTAKE = 1;
     double ADVANCEMENT_SERVO_OUTTAKE = -1;
     double ADVANCEMENT_SERVO_OFF = 0;
@@ -57,10 +65,12 @@ public class ArmController {
 
     //Yaw Servo Angles
     double YAW_SERVO_ANGLE;
+    double YAW_SERVO_NEEDED_ANGLE; //the Servo angle to point towards the bucket
     //endregion
 
     //Hood servo Angles
     double HOOD_SERVO_ANGLE;
+    double HOOD_SERVO_NEEDED_ANGLE; //the Servo angle to from the needed shooting trajectory
 
 
     public void init(HardwareMap hardwareMap){
@@ -85,20 +95,39 @@ public class ArmController {
 
 
     }
-    public void updateArm(){
+    public void updateArm(ArmState armState, double YAW_SERVO_NEEDED_ANGLE, double HOOD_SERVO_NEEDED_ANGLE, boolean BALL_SIZE){
+        //switch case that takes
         switch (armState){
             case Intake:
-                //stuff
+                DC_ROLLER_INTAKE_POWER = DC_ROLLER_INTAKE_INTAKE;
+                DC_MAIN_INTAKE_POWER = DC_MAIN_INTAKE_INTAKE;
+                DC_FLYWHEEL_POWER = DC_FLYWHEEL_OFF;
+                ADVANCEMENT_SERVO_POWER = ADVANCEMENT_SERVO_OFF;
                 break;
             case Outtake:
-                //stuff
+                DC_ROLLER_INTAKE_POWER = DC_ROLLER_INTAKE_OUTTAKE;
+                DC_MAIN_INTAKE_POWER = DC_MAIN_INTAKE_OUTTAKE;
+                DC_FLYWHEEL_POWER = DC_FLYWHEEL_OFF;
+                ADVANCEMENT_SERVO_POWER = ADVANCEMENT_SERVO_OUTTAKE;
                 break;
             case Shooting:
-                //stuff
+                DC_ROLLER_INTAKE_POWER = DC_ROLLER_INTAKE_OFF;
+                DC_MAIN_INTAKE_POWER = DC_MAIN_INTAKE_INTAKE;
+                if (BALL_SIZE) { DC_FLYWHEEL_POWER = DC_FLYWHEEL_BIG_BALL; }
+                else{ DC_FLYWHEEL_POWER = DC_FLYWHEEL_SMALL_BALL; }
+                YAW_SERVO_ANGLE = YAW_SERVO_NEEDED_ANGLE;
+                HOOD_SERVO_ANGLE = HOOD_SERVO_NEEDED_ANGLE;
                 break;
 
         }
+        //setting powers from switch case
+        rollerDcMotor.setVelocity(DC_ROLLER_INTAKE_POWER);
+        mainIntakeDcMotor.setVelocity(DC_MAIN_INTAKE_POWER);
+        flywheelDcMotor.setVelocity(DC_FLYWHEEL_POWER);
+
+        advancementServo.setPower(ADVANCEMENT_SERVO_POWER);
+
+        yawServo.setPosition(YAW_SERVO_ANGLE);
+        hoodServo.setPosition(HOOD_SERVO_ANGLE);
     }
-
-
 }
