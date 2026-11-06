@@ -58,7 +58,7 @@ public class ArmController {
 
     //Advancement Servo Powers
     double ADVANCEMENT_SERVO_POWER = 0;
-    double ADVANCEMENT_SERVO_INTAKE = 1;
+    public static double ADVANCEMENT_SERVO_INTAKE = 1;
     double ADVANCEMENT_SERVO_OUTTAKE = -1;
     double ADVANCEMENT_SERVO_OFF = 0;
     //endregion
